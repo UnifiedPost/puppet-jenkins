@@ -1,40 +1,13 @@
-
-class jenkins::enabled  {
- service{"jenkins":
-        ensure => "running" ,
-        enable => "true",
-    }
-}
-
-# EOC jenkins::enabled 
-class jenkins::disabled {
- service {"jenkins":
-        ensure => "stopped" ,
-        enable => "false",
-    }
-
-}
-# EOC jenkins::disabled 
-
 class jenkins{
 
 	include jenkins::package
-	include jenkins::enabled 
-	include jenkins::plugins 
+	include jenkins::service
+  ##	include jenkins::plugins
 
 }
 
 
 class jenkins::plugins{
-
-	  yumrepo { "inuits-jenkins-plugins":
-            descr       => "inuits-jenkins-plugins",
-            enabled     => 1,
-            gpgcheck    => 0,
-            baseurl     => "http://repo.inuits.be/jenkins/os";
-
-        }
-
 
 	package {
 		"jenkins-analysis-core-plugin":
