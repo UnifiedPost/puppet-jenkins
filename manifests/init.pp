@@ -16,27 +16,9 @@ class jenkins::disabled {
 }
 # EOC jenkins::disabled 
 
-
-class jenkins::repo {
-
-	yumrepo {
-   	"jenkins":
-            descr       => "jenkins",
-            enabled     => 1,
-            gpgcheck    => 0,
-            baseurl     => "http://pkg.jenkins-ci.org/redhat/"; 
-        
-
-	}
-
-
-}
-
 class jenkins{
 
-	include jenkins::repo
 	include jenkins::package
-	Class["jenkins::repo"] -> Class["jenkins::package"]
 	include jenkins::enabled 
 	include jenkins::plugins 
 
