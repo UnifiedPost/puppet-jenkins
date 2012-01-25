@@ -32,16 +32,6 @@ class jenkins::repo {
 
 }
 
-class jenkins::package {
-	package {
-		"jenkins":
-		     ensure => present;
-	}
-
-
-
-}
-
 class jenkins{
 
 	include jenkins::repo
