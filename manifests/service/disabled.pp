@@ -1,10 +1,10 @@
-# = Class: jenkins::disabled
+# = Class: jenkins::service::disabled
 #
-# Description of jenkins::disabled
+# Setup the jenkins service but make sure it is not running.
 #
 # == Parameters:
 #
-class jenkins::disabled inherits jenkins::service {
+class jenkins::service::disabled inherits jenkins::service {
 
   require jenkins::package
 
