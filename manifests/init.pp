@@ -4,6 +4,6 @@ class jenkins {
   include jenkins::service
 
   $modulename = 'up-puppet-jenkins'
-  $moduleversion = '0.1dev'
+  $moduleversion = '0.1'
 
 }
