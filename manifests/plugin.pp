@@ -7,13 +7,29 @@
 # $ensure::     Ensure wether a plugin should be present or absent.
 #               Defaults to 'present'.
 #
-define jenkins::plugin(
-  $ensure = 'present'
+# $no_package:: Don't attempt to install the package. This can be used
+#               to extend a core plugin with some puppet magic.
+#
+define jenkins::plugin (
+  $ensure = 'present',
+  $no_package = false,
 ) {
 
-  package {"jenkins-plugin-${name}":
-    ensure  => $ensure,
-    require => Package['jenkins'],
+  ## jenkins::params we will be using
+  require jenkins::params
+  $allow_override = $::jenkins::params::override_core_plugins
+  $core_plugins = $::jenkins::params::core_plugins
+
+  if ! $no_package {
+    if ! $allow_override and ($name in $core_plugins) {
+      fail("jenkins::plugin on ${::hostname}: You are attempting to override a core plugin (${name}) and this has been disabled in jenkins::params!")
+    }
+    else {
+      package {"jenkins-plugin-${name}":
+        ensure  => $ensure,
+        require => Package['jenkins'],
+      }
+    }
   }
 
 }
