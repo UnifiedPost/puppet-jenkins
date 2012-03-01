@@ -4,7 +4,7 @@
 #
 class jenkins::package {
 
-  include jenkins::params
+  require jenkins::params
 
   ## Group variables we will use from params
   $package = $jenkins::params::package
