@@ -9,10 +9,11 @@
 #
 # $no_package:: Don't attempt to install the package. This can be used
 #               to extend a core plugin with some puppet magic.
+#               Defaults to true for core plugins, false for others.
 #
 define jenkins::plugin (
   $ensure = 'present',
-  $no_package = false,
+  $no_package = undef,
 ) {
 
   ## jenkins::params we will be using
@@ -20,7 +21,17 @@ define jenkins::plugin (
   $allow_override = $::jenkins::params::override_core_plugins
   $core_plugins = $::jenkins::params::core_plugins
 
-  if ! $no_package {
+  if $no_package == undef {
+    if $name in $core_plugins {
+      $no_package = true
+    } else {
+      $no_package = false
+    }
+  } else {
+    $nopackage = $no_package
+  }
+
+  if ! $nopackage {
     if ! $allow_override and ($name in $core_plugins) {
       fail("jenkins::plugin on ${::hostname}: You are attempting to override a core plugin (${name}) and this has been disabled in jenkins::params!")
     }
@@ -30,6 +41,10 @@ define jenkins::plugin (
         require => Package['jenkins'],
       }
     }
+  }
+
+  if defined("jenkins::plugin::${name}") {
+    require "jenkins::plugin::${name}"
   }
 
 }
