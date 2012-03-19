@@ -51,6 +51,12 @@ class jenkins::params(
     }
   }
 
+  $config_file = $::operatingsystem ? {
+    /(?i:centos|redhat)/  => '/var/lib/jenkins/config.xml',
+    /(?i:debian)/         => '/var/lib/jenkins/config.xml',
+    default               => '/var/lib/jenkins/config.xml',
+  }
+
 
   $user = $runas_user ? {
     undef   => $::operatingsystem ? {
