@@ -4,13 +4,9 @@
 #
 class jenkins::package {
 
-  require jenkins::params
-
-  ## Group variables we will use from params
-  $package = $jenkins::params::package
-  $java = $jenkins::params::java
-
-  #
+  include jenkins::params
+  $package  = $jenkins::params::package
+  $java     = $jenkins::params::java
 
   if ! defined(Package[$java]) {
     package {$java:
