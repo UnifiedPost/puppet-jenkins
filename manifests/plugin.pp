@@ -23,9 +23,9 @@ define jenkins::plugin (
 
   if $no_package == undef {
     if $name in $core_plugins {
-      $no_package = true
+      $nopackage = true
     } else {
-      $no_package = false
+      $nopackage = false
     }
   } else {
     $nopackage = $no_package
