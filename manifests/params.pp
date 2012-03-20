@@ -77,7 +77,8 @@ class jenkins::params(
   }
 
   $core_plugins = [
-    'ant', 'cvs','javadoc','maven-plugin','ssh-slaves','subversion', 'translation'
+    'ant', 'cvs','javadoc','maven-plugin',
+    'ssh-slaves','subversion', 'translation',
   ]
 
 }
