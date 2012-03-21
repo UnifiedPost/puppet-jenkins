@@ -31,7 +31,8 @@ class jenkins::params(
   $java_package = undef,
   $runas_user = undef,
   $runas_group = undef,
-  $override_core_plugins = false
+  $override_core_plugins = false,
+  $package_ensure = 'latest'
 ) {
 
   $package = 'jenkins'
