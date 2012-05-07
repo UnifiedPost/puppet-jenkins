@@ -28,40 +28,48 @@
 # === Sample Usage:
 #
 class jenkins::params(
-  $java_package = undef,
-  $runas_user = undef,
-  $runas_group = undef,
-  $override_core_plugins = false
+  $java_package             = undef,
+  $runas_user               = undef,
+  $runas_group              = undef,
+  $override_core_plugins    = false,
+  $package_ensure           = 'latest',
+  $config                   = undef,
+  $config_home              = '/var/lib/jenkins',
+  $config_java_cmd          = '',
+  $config_java_options      = '-Djava.awt.headless=true',
+  $config_port              = 8080,
+  $config_ajb_port          = 8009,
+  $config_debug_level       = 5,
+  $config_access_log        = false,
+  $config_handler_max       = 100,
+  $config_handler_idle      = 20,
+  $config_args              = ''
 ) {
 
   $package = 'jenkins'
 
-  case $java_package {
-    undef: {
-      case $::operatingsystem {
-        /(?i:centos|redhat)/: { $java = 'java-1.6.0-openjdk' }
-        /(?i:debian|ubuntu)/: { $java = 'openjdk-6-jdk' }
-        default: {
-          fail("The jenkins module has no java dependency configured for your operatingsystem: ${::operatingsystem}")
-        }
-      }
-    }
+
+  case $::operatingsystem {
+    /(?i:centos|redhat)/: { }
+    /(?i:debian|ubuntu)/: { }
     default: {
-      $java = $java_package
+      fail("The jenkins module does not support your operatingsystem: ${::operatingsystem}")
     }
   }
 
-  $config_file = $::operatingsystem ? {
-    /(?i:centos|redhat)/  => '/var/lib/jenkins/config.xml',
-    /(?i:debian)/         => '/var/lib/jenkins/config.xml',
-    default               => '/var/lib/jenkins/config.xml',
+  $java = $java_package ? {
+    undef => $::operatingsystem ? {
+      /(?i:centos|redhat)/ => 'java-1.6.0-openjdk',
+      /(?i:debian|ubuntu)/ => 'openjdk-6-jdk',
+      default              => undef,
+    },
+    default => $java_package,
   }
-
 
   $user = $runas_user ? {
     undef   => $::operatingsystem ? {
       /(?i:centos|redhat)/  => 'jenkins',
-      /(?i:debian)/         => 'jenkins',
+      /(?i:debian|ubuntu)/  => 'jenkins',
       default               => 'jenkins',
     },
     default => $runas_user,
@@ -70,11 +78,23 @@ class jenkins::params(
   $group = $runas_group ? {
     undef   => $::operatingsystem ? {
       /(?i:centos|redhat)/  => 'jenkins',
-      /(?i:debian)/         => 'nogroup',
+      /(?i:debian|ubuntu)/  => 'nogroup',
       default               => 'jenkins',
     },
     default => $runas_group,
   }
+
+  $config_file = $config ? {
+    undef   => $::operatingsystem ? {
+      /(?i:centos|redhat)/  => '/etc/sysconfig/jenkins',
+      /(?i:debian|ubuntu)/  => '/etc/default/jenkins',
+      default               => undef,
+    },
+    default => $config,
+  }
+
+
+
 
   $core_plugins = [
     'ant', 'cvs','javadoc','maven-plugin',
