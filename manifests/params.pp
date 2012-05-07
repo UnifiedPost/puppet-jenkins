@@ -49,26 +49,20 @@ class jenkins::params(
 
 
   case $::operatingsystem {
-    /(?i:centos|redhat)/: { $java = 'java-1.6.0-openjdk' }
-    /(?i:debian|ubuntu)/: { $java = 'openjdk-6-jdk' }
+    /(?i:centos|redhat)/: { }
+    /(?i:debian|ubuntu)/: { }
     default: {
       fail("The jenkins module does not support your operatingsystem: ${::operatingsystem}")
     }
   }
 
-  case $java_package {
-    undef: {
-      case $::operatingsystem {
-        /(?i:centos|redhat)/: { $java = 'java-1.6.0-openjdk' }
-        /(?i:debian|ubuntu)/: { $java = 'openjdk-6-jdk' }
-        default: {
-          fail("The jenkins module has no java dependency configured for your operatingsystem: ${::operatingsystem}")
-        }
-      }
-    }
-    default: {
-      $java = $java_package
-    }
+  $java = $java_package ? {
+    undef => $::operatingsystem ? {
+      /(?i:centos|redhat)/ => 'java-1.6.0-openjdk',
+      /(?i:debian|ubuntu)/ => 'openjdk-6-jdk',
+      default              => undef,
+    },
+    default => $java_package,
   }
 
   $user = $runas_user ? {
@@ -97,6 +91,7 @@ class jenkins::params(
     },
     default => $config,
   }
+
 
 
 
