@@ -39,7 +39,7 @@ define jenkins::plugin (
       package {"jenkins-plugin-${name}":
         ensure  => $ensure,
         require => Package['jenkins'],
-        notify  => Service['jenkins'],
+##        notify  => Service['jenkins'],
       }
     }
   }
