@@ -10,7 +10,7 @@ class jenkins::util::repo::el {
 
   file { '/etc/yum.repos.d/jenkins.repo':
     ensure => present,
-    source => 'puppet://modules/jenkins/util/repo/jenkins.yum.repo',
+    source => 'puppet:///modules/jenkins/util/repo/jenkins.yum.repo',
     owner  => 'root',
     group  => 'root',
     mode   => '0644',
