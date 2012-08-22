@@ -27,6 +27,6 @@ class jenkins::tomcat (
 
   file { $tomcat_catalina_config_dir:
     ensure  => present,
-    content => template('jenkins/jenkins.xml'),
+    content => template('jenkins/jenkins.xml.erb'),
   }
 }
