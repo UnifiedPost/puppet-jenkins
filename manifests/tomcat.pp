@@ -19,7 +19,6 @@ class jenkins::tomcat (
 
   file { $jenkins_dir:
     ensure  => directory,
-    recurse => true,
     owner   => 'tomcat',
     group   => 'tomcat',
     require => Class ['jenkins::package'],
