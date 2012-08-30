@@ -24,7 +24,7 @@ class jenkins::tomcat (
     require => Class ['jenkins::package'],
   }
 
-  file { $tomcat_catalina_config_dir:
+  file { "${tomcat_catalina_config_dir}/jenkins.xml":
     ensure  => present,
     content => template('jenkins/jenkins.xml.erb'),
   }
