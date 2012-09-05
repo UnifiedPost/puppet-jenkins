@@ -5,7 +5,7 @@
 class jenkins::module {
 
   $id = 'up-puppet-jenkins'
-  $version = '0.3'
+  $version = '0.3.1'
 
 }
 
