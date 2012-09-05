@@ -13,7 +13,7 @@
 #
 define jenkins::plugin (
   $ensure = 'present',
-  $no_package = undef,
+  $no_package = undef
 ) {
 
   ## jenkins::params we will be using

@@ -2,12 +2,11 @@
 #
 # Install the jenkins package
 #
-class jenkins::package {
-
-  include jenkins::params
-  $package        = $jenkins::params::package
-  $package_ensure = $jenkins::params::package_ensure
-  $java           = $jenkins::params::java
+class jenkins::package (
+  $package  = $jenkins::params::package,
+  $ensure   = $jenkins::params::package_ensure,
+  $java     = $jenkins::params::java
+) inherits jenkins::params {
 
   if ! defined(Package[$java]) {
     package {$java:
@@ -16,7 +15,7 @@ class jenkins::package {
   }
 
   package {$package:
-    ensure  => $package_ensure,
+    ensure  => $ensure,
     alias   => 'jenkins',
     require => Package[$java],
   }
