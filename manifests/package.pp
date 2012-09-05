@@ -3,8 +3,8 @@
 # Install the jenkins package
 #
 class jenkins::package (
-  $package  = $jenkins::params::package
-  $ensure   = $jenkins::params::package_ensure
+  $package  = $jenkins::params::package,
+  $ensure   = $jenkins::params::package_ensure,
   $java     = $jenkins::params::java
 ) inherits jenkins::params {
 
