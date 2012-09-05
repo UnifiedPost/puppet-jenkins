@@ -32,7 +32,7 @@ class jenkins::params(
   $runas_user               = undef,
   $runas_group              = undef,
   $override_core_plugins    = false,
-  $package_ensure           = 'latest',
+  $package_ensure           = 'present',
   $config                   = undef,
   $config_home              = '/var/lib/jenkins',
   $config_java_cmd          = '',
